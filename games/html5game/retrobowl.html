@@ -2,21 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 <title>Retro Bowl</title>
 
 <style>
   body {
     margin: 0;
-    padding: 0;
     overflow: hidden;
     background: black;
   }
 
   canvas {
-    width: 100%;
-    height: 100%;
     display: block;
   }
 </style>
@@ -26,29 +23,32 @@
 
 <canvas id="canvas"></canvas>
 
+<script>
+  const canvas = document.getElementById("canvas");
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  window.addEventListener("resize", resize);
+  resize();
+</script>
+
+<!-- KEEP THIS PATH CORRECT -->
 <script src="html5game/RetroBowl.js"></script>
 
 <script>
-function resizeCanvas() {
-  const c = document.getElementById("canvas");
-  c.width = window.innerWidth;
-  c.height = window.innerHeight;
-}
-
-// IMPORTANT: delay init for iPad Safari stability
-window.onload = function () {
-  resizeCanvas();
-
-  setTimeout(() => {
-    if (typeof GameMaker_Init === "function") {
-      GameMaker_Init();
-    } else {
-      console.error("GameMaker_Init missing");
-    }
-  }, 300); // 👈 THIS is the fix
-};
-
-window.addEventListener("resize", resizeCanvas);
+  // Delay slightly (fixes iPad freeze) BUT not too much
+  window.onload = function () {
+    setTimeout(() => {
+      if (typeof GameMaker_Init === "function") {
+        GameMaker_Init();
+      } else {
+        console.error("GameMaker_Init not found");
+      }
+    }, 100);
+  };
 </script>
 
 </body>
